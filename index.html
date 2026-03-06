@@ -6,46 +6,87 @@
 <style>
 
 body{
+margin:0;
 font-family:Arial;
-text-align:center;
 background:linear-gradient(45deg,#1e3c72,#2a5298);
 color:white;
+text-align:center;
 }
 
-.box{
-background:white;
-color:black;
-width:340px;
-margin:60px auto;
-padding:20px;
-border-radius:15px;
-box-shadow:0 0 10px black;
+.header{
+background:#111;
+padding:15px;
+font-size:22px;
 }
 
-button{
+.balance{
+margin-top:5px;
+font-size:18px;
+}
+
+.timer{
+font-size:28px;
+color:#ff5252;
+margin:20px;
+}
+
+.menu button{
 padding:10px 20px;
 margin:5px;
 border:none;
 border-radius:8px;
-font-size:16px;
 color:white;
+font-size:16px;
+}
+
+.deposit{background:#4caf50;}
+.withdraw{background:#ff9800;}
+
+.bet button{
+padding:10px 15px;
+margin:5px;
+border:none;
+border-radius:6px;
+background:#ffc107;
+}
+
+.colors button{
+padding:12px 20px;
+margin:5px;
+border:none;
+border-radius:8px;
+color:white;
+font-size:16px;
 }
 
 .red{background:red;}
 .green{background:green;}
 .blue{background:blue;}
 
-.bet{
-background:#ff9800;
+.history{
+margin-top:20px;
+padding:10px;
 }
 
-.deposit{
-background:#4caf50;
+.history span{
+background:white;
+color:black;
+padding:5px 8px;
+margin:3px;
+display:inline-block;
+border-radius:5px;
 }
 
-.timer{
-font-size:22px;
-color:red;
+.popup{
+display:none;
+position:fixed;
+top:30%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+color:black;
+padding:20px;
+border-radius:10px;
 }
 
 </style>
@@ -54,86 +95,126 @@ color:red;
 
 <body>
 
-<div class="box">
+<div class="header">
+🎮 Sonu Color Prediction
+<div class="balance">Balance ₹<span id="balance">1000</span></div>
+</div>
 
-<h2>🎮 Sonu Color Prediction</h2>
+<div class="timer">
+⏱ Time: <span id="time">30</span>
+</div>
 
-<p>Balance ₹<span id="balance">1000</span></p>
+<div class="menu">
+<button class="deposit" onclick="showDeposit()">Deposit</button>
+<button class="withdraw" onclick="showWithdraw()">Withdraw</button>
+</div>
 
-<p class="timer">⏱ Time: <span id="time">30</span></p>
+<h3>Select Bet</h3>
 
-<a href="deposit.html">
-<button class="deposit">💰 Deposit</button>
-</a>
-
-<h3>Select Bet Amount</h3>
-
-<button class="bet" onclick="bet=10">₹10</button>
-<button class="bet" onclick="bet=50">₹50</button>
-<button class="bet" onclick="bet=100">₹100</button>
+<div class="bet">
+<button onclick="bet=10">₹10</button>
+<button onclick="bet=50">₹50</button>
+<button onclick="bet=100">₹100</button>
+</div>
 
 <h3>Choose Color</h3>
 
-<button class="red" onclick="play('Red')">Red</button>
-<button class="green" onclick="play('Green')">Green</button>
-<button class="blue" onclick="play('Blue')">Blue</button>
+<div class="colors">
+<button class="red" onclick="choose('Red')">Red</button>
+<button class="green" onclick="choose('Green')">Green</button>
+<button class="blue" onclick="choose('Blue')">Blue</button>
+</div>
 
-<p id="result"></p>
+<h3>Game History</h3>
 
-<h3>Last Results</h3>
+<div class="history" id="history"></div>
 
-<p id="history"></p>
+<div class="popup" id="depositBox">
+<h3>Deposit</h3>
+<p>UPI: Mahiraswaraj09@ybl</p>
+<button onclick="closeBox()">Close</button>
+</div>
 
+<div class="popup" id="withdrawBox">
+<h3>Withdraw</h3>
+<input placeholder="Enter Amount">
+<br><br>
+<button onclick="closeBox()">Submit</button>
 </div>
 
 <script>
 
-let balance=1000;
-let bet=10;
-let history=[];
+let balance=1000
+let bet=10
+let selectColor=""
+let history=[]
+let round=100
+let time=30
 
-function play(color){
-
-let colors=["Red","Green","Blue"];
-
-let result=colors[Math.floor(Math.random()*3)];
-
-history.unshift(result);
-
-if(history.length>5){
-history.pop();
+function choose(color){
+selectColor=color
 }
 
-if(color===result){
+function result(){
 
-balance+=bet*2;
-document.getElementById("result").innerHTML="🎉 You Win! Result: "+result;
+let colors=["Red","Green","Blue"]
 
+let res=colors[Math.floor(Math.random()*3)]
+
+round++
+
+history.unshift(round+"-"+res)
+
+if(history.length>10){
+history.pop()
+}
+
+if(selectColor===res){
+balance+=bet*2
 }else{
-
-balance-=bet;
-document.getElementById("result").innerHTML="❌ You Lose! Result: "+result;
-
+balance-=bet
 }
 
-document.getElementById("balance").innerHTML=balance;
-document.getElementById("history").innerHTML=history.join(" , ");
+document.getElementById("balance").innerHTML=balance
+
+let h=""
+
+history.forEach(function(x){
+h+="<span>"+x+"</span>"
+})
+
+document.getElementById("history").innerHTML=h
 
 }
-
-let time=30;
 
 setInterval(function(){
 
-time--;
+time--
 
 if(time<=0){
-time=30;
+
+result()
+
+time=30
+
 }
 
-document.getElementById("time").innerHTML=time;
+document.getElementById("time").innerHTML=time
 
-},1000);
+},1000)
+
+function showDeposit(){
+document.getElementById("depositBox").style.display="block"
+}
+
+function showWithdraw(){
+document.getElementById("withdrawBox").style.display="block"
+}
+
+function closeBox(){
+document.getElementById("depositBox").style.display="none"
+document.getElementById("withdrawBox").style.display="none"
+}
 
 </script>
 
