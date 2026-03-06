@@ -1,20 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Sonu Game</title>
+<title>Sonu Color Game</title>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:linear-gradient(45deg,#ff512f,#dd2476);
+color:white;
+}
+
+.box{
+background:white;
+color:black;
+width:320px;
+margin:80px auto;
+padding:20px;
+border-radius:15px;
+box-shadow:0 0 10px black;
+}
+
+button{
+padding:10px 20px;
+margin:5px;
+border:none;
+border-radius:8px;
+font-size:16px;
+color:white;
+}
+
+.red{background:red;}
+.green{background:green;}
+.blue{background:blue;}
+
+.deposit{
+background:orange;
+margin-bottom:10px;
+}
+</style>
+
 </head>
 
-<body style="text-align:center">
+<body>
 
-<h2>Sonu Color Game</h2>
+<div class="box">
 
-<p>Balance: ₹<span id="balance">1000</span></p>
+<h2>🎮 Sonu Color Game</h2>
 
-<button onclick="play('Red')">Red</button>
-<button onclick="play('Green')">Green</button>
-<button onclick="play('Blue')">Blue</button>
+<p>Balance ₹<span id="balance">1000</span></p>
+
+<a href="deposit.html">
+<button class="deposit">💰 Deposit</button>
+</a>
+
+<br>
+
+<button class="red" onclick="play('Red')">Red</button>
+<button class="green" onclick="play('Green')">Green</button>
+<button class="blue" onclick="play('Blue')">Blue</button>
 
 <p id="result"></p>
+
+</div>
 
 <script>
 
@@ -29,14 +77,12 @@ let result=colors[Math.floor(Math.random()*3)];
 if(color===result){
 
 balance+=200;
-
-document.getElementById("result").innerHTML="You Win Result: "+result;
+document.getElementById("result").innerHTML="🎉 You Win! Result: "+result;
 
 }else{
 
 balance-=100;
-
-document.getElementById("result").innerHTML="You Lose Result: "+result;
+document.getElementById("result").innerHTML="❌ You Lose! Result: "+result;
 
 }
 
