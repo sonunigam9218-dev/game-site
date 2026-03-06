@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sonu Game</title>
+</head>
+
+<body style="text-align:center">
+
+<h2>Sonu Color Game</h2>
+
+<p>Balance: ₹<span id="balance">1000</span></p>
+
+<button onclick="play('Red')">Red</button>
+<button onclick="play('Green')">Green</button>
+<button onclick="play('Blue')">Blue</button>
+
+<p id="result"></p>
+
+<script>
+
+let balance=1000;
+
+function play(color){
+
+let colors=["Red","Green","Blue"];
+
+let result=colors[Math.floor(Math.random()*3)];
+
+if(color===result){
+
+balance+=200;
+
+document.getElementById("result").innerHTML="You Win Result: "+result;
+
+}else{
+
+balance-=100;
+
+document.getElementById("result").innerHTML="You Lose Result: "+result;
+
+}
+
+document.getElementById("balance").innerHTML=balance;
+
+}
+
+</script>
+
+</body>
+</html>
