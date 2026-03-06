@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Sonu Color Game</title>
+<title>Sonu Color Prediction</title>
 
 <style>
+
 body{
 font-family:Arial;
 text-align:center;
-background:linear-gradient(45deg,#ff512f,#dd2476);
+background:linear-gradient(45deg,#1e3c72,#2a5298);
 color:white;
 }
 
 .box{
 background:white;
 color:black;
-width:320px;
-margin:80px auto;
+width:340px;
+margin:60px auto;
 padding:20px;
 border-radius:15px;
 box-shadow:0 0 10px black;
@@ -34,10 +35,19 @@ color:white;
 .green{background:green;}
 .blue{background:blue;}
 
-.deposit{
-background:orange;
-margin-bottom:10px;
+.bet{
+background:#ff9800;
 }
+
+.deposit{
+background:#4caf50;
+}
+
+.timer{
+font-size:22px;
+color:red;
+}
+
 </style>
 
 </head>
@@ -46,15 +56,23 @@ margin-bottom:10px;
 
 <div class="box">
 
-<h2>🎮 Sonu Color Game</h2>
+<h2>🎮 Sonu Color Prediction</h2>
 
 <p>Balance ₹<span id="balance">1000</span></p>
+
+<p class="timer">⏱ Time: <span id="time">30</span></p>
 
 <a href="deposit.html">
 <button class="deposit">💰 Deposit</button>
 </a>
 
-<br>
+<h3>Select Bet Amount</h3>
+
+<button class="bet" onclick="bet=10">₹10</button>
+<button class="bet" onclick="bet=50">₹50</button>
+<button class="bet" onclick="bet=100">₹100</button>
+
+<h3>Choose Color</h3>
 
 <button class="red" onclick="play('Red')">Red</button>
 <button class="green" onclick="play('Green')">Green</button>
@@ -62,11 +80,17 @@ margin-bottom:10px;
 
 <p id="result"></p>
 
+<h3>Last Results</h3>
+
+<p id="history"></p>
+
 </div>
 
 <script>
 
 let balance=1000;
+let bet=10;
+let history=[];
 
 function play(color){
 
@@ -74,21 +98,42 @@ let colors=["Red","Green","Blue"];
 
 let result=colors[Math.floor(Math.random()*3)];
 
+history.unshift(result);
+
+if(history.length>5){
+history.pop();
+}
+
 if(color===result){
 
-balance+=200;
+balance+=bet*2;
 document.getElementById("result").innerHTML="🎉 You Win! Result: "+result;
 
 }else{
 
-balance-=100;
+balance-=bet;
 document.getElementById("result").innerHTML="❌ You Lose! Result: "+result;
 
 }
 
 document.getElementById("balance").innerHTML=balance;
+document.getElementById("history").innerHTML=history.join(" , ");
 
 }
+
+let time=30;
+
+setInterval(function(){
+
+time--;
+
+if(time<=0){
+time=30;
+}
+
+document.getElementById("time").innerHTML=time;
+
+},1000);
 
 </script>
 
